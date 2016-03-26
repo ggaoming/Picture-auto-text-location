@@ -12,4 +12,3 @@ using opencv numpy
     *   area
     *   color
 * evaluate
-* 
