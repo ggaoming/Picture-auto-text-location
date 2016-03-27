@@ -59,8 +59,8 @@ class Picture_Scanner(object):
                 self.feature_blocks[y].append((mu, std))
                 index_x += 1
             index_y += 1
-        for i in self.feature_blocks:
-            print i
+        pass
+
 
     def luminance_calculate(self, sub_img):
         """
@@ -92,8 +92,18 @@ class Picture_Scanner(object):
 img = cv2.imread('pictures/1.jpg')
 app = Picture_Scanner(img)
 app.devide_into_patrs()
-cv2.imshow('src', app.img)
-
+min_value = np.inf
+min_index = 0
+for i in range(10):
+    img2 = cv2.imread('pictures/%d.jpg'%(i+10))
+    app2 = Picture_Scanner(img2)
+    app2.devide_into_patrs()
+    arr, val = Utils.img1_img2_compare_mu_std(app.feature_blocks,app2.feature_blocks)
+    print i+10, ":", arr, val
+    if val < min_value:
+        min_index = i+10
+        min_value = val
+print min_index,min_value
 
 cv2.waitKey()
 
