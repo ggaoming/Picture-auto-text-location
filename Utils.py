@@ -23,6 +23,11 @@ def gauss_verification(mu, std, x):
     pass
 
 def img1_img2_compare_mu_std(img1_feature, img2_feature):
+    """
+    :param img1_feature: image 1's feature
+    :param img2_feature: image 2's feature
+    :return:
+    """
 
     if len(img1_feature) != len(img2_feature) or len(img2_feature[0]) != len(img2_feature[0]):
         return None
@@ -30,9 +35,8 @@ def img1_img2_compare_mu_std(img1_feature, img2_feature):
     b = []
     for i in range(len(img1_feature)):
         for j in range(len(img1_feature[0])):
-            a.append(np.abs(img1_feature[i][j])+1.0)
-            b.append(np.abs(img2_feature[i][j])+1.0)
-
+            a.append(np.abs(img1_feature[i][j]) + 1.0)
+            b.append(np.abs(img2_feature[i][j]) + 1.0)
     a = np.array(a)
     b = np.array(b)
     a_sum = np.sum(a)
@@ -44,4 +48,4 @@ def img1_img2_compare_mu_std(img1_feature, img2_feature):
         temp += np.sqrt(a[i]*b[i])/(a_sum * b_sum)
     bhattacharyya_distance = np.sqrt(1 - temp)
 
-    return bhattacharyya_distance, np.sqrt(np.sum(bhattacharyya_distance**2))
+    return bhattacharyya_distance, np.sqrt(np.sum((a_sum - b_sum)**2))
