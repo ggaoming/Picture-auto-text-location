@@ -2,6 +2,7 @@
 import scipy
 import numpy as np
 from scipy.stats import norm
+import scipy.cluster.hierarchy as hcluster
 
 def gauss_fit(x):
     """
@@ -49,3 +50,35 @@ def img1_img2_compare_mu_std(img1_feature, img2_feature):
     bhattacharyya_distance = np.sqrt(1 - temp)
 
     return bhattacharyya_distance, np.sqrt(np.sum((a_sum - b_sum)**2))
+
+
+def hcluster_func(X, target, group_size):
+    import copy
+    loop_depth = 5
+    target_loop = [target]
+    train_set =copy.copy(X)
+    for LOOP in range(loop_depth):
+        print '***loop***', LOOP
+        minIndex = -1
+        minDistance = np.inf
+        for ele0 in train_set:
+            distance = []
+            for ele1 in target_loop:
+                distance0, distance1 = img1_img2_compare_mu_std(ele0, ele1)
+                distance.append(distance1)
+            currValue = sum(distance)/len(distance)
+            if minDistance > currValue:
+                minDistance = currValue
+                minIndex = train_set.index(ele0)
+        print ' ', 'minDistance %lf minValue %d' % (minDistance, minIndex)
+        currArray = train_set[minIndex]
+        train_set.remove(currArray)
+        target_loop.append(currArray)
+
+
+    index = 0
+    for ele in target_loop:
+        if ele in X:
+            index += 1
+            print "Index %d train_Id: %d" % (index, X.index(ele))
+    pass
