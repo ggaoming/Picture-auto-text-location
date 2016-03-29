@@ -87,24 +87,45 @@ class Picture_Scanner(object):
         mu, std = Utils.gauss_fit(x=x_array)
         return mu, std
 
+def test0():
+    j = 1
+    img = cv2.imread('pictures/%d.jpg' % j)
+    app = Picture_Scanner(img)
+    app.devide_into_patrs()
+    min_value = np.inf
+    min_index = 0
+    for i in range(42):
+        if i == j:
+            continue
+        img2 = cv2.imread('pictures/%d.jpg' % (i))
+        app2 = Picture_Scanner(img2)
+        app2.devide_into_patrs()
+        arr, val = Utils.img1_img2_compare_mu_std(app.feature_blocks, app2.feature_blocks)
+        print i, ":", arr, val
+        if val < min_value:
+            min_index = i
+            min_value = val
+    print min_index, min_value
 
+    cv2.waitKey()
+def test2():
 
-img = cv2.imread('pictures/1.jpg')
-app = Picture_Scanner(img)
-app.devide_into_patrs()
-min_value = np.inf
-min_index = 0
-for i in range(10):
-    img2 = cv2.imread('pictures/%d.jpg'%(i+10))
-    app2 = Picture_Scanner(img2)
-    app2.devide_into_patrs()
-    arr, val = Utils.img1_img2_compare_mu_std(app.feature_blocks,app2.feature_blocks)
-    print i+10, ":", arr, val
-    if val < min_value:
-        min_index = i+10
-        min_value = val
-print min_index,min_value
+    X = []
+    for i in range(20):
+        img2 = cv2.imread('pictures/%d.jpg' % (i))
+        app2 = Picture_Scanner(img2)
+        app2.devide_into_patrs()
+        """
+        a = []
+        for i in range(len(app2.feature_blocks)):
+            for j in range(len(app2.feature_blocks[0])):
+                a.append(np.abs(app2.feature_blocks[i][j]))
+        X.append(a)
+        """
+        X.append(app2.feature_blocks)
+    result = Utils.hcluster_func(X=X[1:], target=X[0], group_size=5)
 
-cv2.waitKey()
+test2()
+
 
 
