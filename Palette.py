@@ -1,6 +1,7 @@
 # -*-coding:utf8 -*-
 import numpy as np
 import skimage.color
+#import skimage.io
 import cv2
 
 class Palette(object):
@@ -49,18 +50,23 @@ class Palette(object):
 
         self.rgb_image = np.hstack((colors, grays))
 
-        color_h, color_w, color_d = np.shape(colors)
-        self.color_array = colors.reshape((color_h * color_w), color_d)
+        h, w, d = colors.shape
+        color_array = colors.T.reshape((d, w * h)).T
+        h, w, d = grays.shape
+        gray_array = grays.T.reshape((d, w * h)).T
+        self.rgb_array = np.vstack((color_array, gray_array))
+        self.lab_array = skimage.color.rgb2lab(self.rgb_array[None, :, :]).squeeze()
         if debug:
             cv2.imshow('src', self.rgb_image)
             cv2.waitKey()
         pass
 
     def save_img(self):
-
+        #skimage.io.imsave()
+        #skimage.io.imsave('palette.png', self.rgb_image)
         pass
 
-app = Palette(debug=True)
-app.save_img()
+#app = Palette(debug=True)
+#app.save_img()
 
 
