@@ -6,8 +6,6 @@ import os
 import cv2
 import json
 FILEPATH = 'pictures/'
-
-
 class pictureReader(object):
 
     def __init__(self):
@@ -20,6 +18,7 @@ class pictureReader(object):
         self.curr_end_x = -1
         self.curr_end_y = -1
         self.drag_start = 0
+        self.img_set_hist = None
         pass
 
     def load(self):
@@ -34,7 +33,6 @@ class pictureReader(object):
             if not '.jpg' in f:
                 continue
             filename = os.path.split(f)[-1]
-            print f, filename
             img = cv2.imread(f)
             self.img_set.append(img)
             self.img_load_order.append(filename)
@@ -44,7 +42,7 @@ class pictureReader(object):
     def get_text_areas(self):
         """
         figure out the text area
-        手动选取文字区域ccc
+        手动选取文字区域
         :return:
         """
         if len(self.img_set) == 0:
@@ -132,7 +130,7 @@ class pictureReader(object):
             self.curr_end_x = x
             self.curr_end_y = y
             pass
-app = pictureReader()
+#app = pictureReader()
 
 
 
