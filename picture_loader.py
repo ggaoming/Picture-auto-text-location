@@ -9,16 +9,33 @@ FILEPATH = 'pictures/'
 class pictureReader(object):
 
     def __init__(self):
-        self.img_set = []
-        self.img_load_order = []
-        self.text_area_set = []
-        self.text_area_dic = {}
+        self.img_set = []  # 保存图像数据
+        self.img_load_order = []  # 保存数据载入顺序　文件名
+        self.text_area_set = []  # 文字区域
+        self.text_area_dic = {}  # 文字区域
+        #--- 区域选择使用参数　----#
         self.curr_start_x = -1
         self.curr_start_y = -1
         self.curr_end_x = -1
         self.curr_end_y = -1
         self.drag_start = 0
-        self.img_set_hist = None
+        #------******------#
+        self.img_set_hist = None  # 图像颜色直方图数据
+        '''
+        value struct np.array() normalize into 1 weight
+        order: in imgs' load order
+        '''
+
+        #------******------#
+        self.img_set_mu_std = None  # 图像颜色结构方差和标准差
+        '''
+        value struct
+            element( (mu_h, mu_l, mu_s), (std_h, std_l, std_s) ) int HLS color space
+        order: in img split style
+            box0 box1 box2
+            box3 box4 box5
+            box6 box7 box8
+        '''
         pass
 
     def load(self):
@@ -96,7 +113,7 @@ class pictureReader(object):
                     self.text_area_set[image_index].append(text_area)
             image_index += 1
         info = json.dumps(self.text_area_dic)
-        file_w = open('image_info.json','w')
+        file_w = open('image_info.json', 'w')
         file_w.write(info)
         file_w.close()
 
