@@ -27,7 +27,7 @@ class pictureReader(object):
         '''
 
         #------******------#
-        self.img_set_mu_std = None  # 图像颜色结构方差和标准差
+        #self.img_set_mu_std = None  # 图像颜色结构方差和标准差
         '''
         value struct
             element( (mu_h, mu_l, mu_s), (std_h, std_l, std_s) ) int HLS color space
@@ -35,6 +35,7 @@ class pictureReader(object):
             box0 box1 box2
             box3 box4 box5
             box6 box7 box8
+        delte because too mutch cach space
         '''
         pass
 
