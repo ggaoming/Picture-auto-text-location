@@ -141,6 +141,8 @@ class Structure_Process():
             #return
 
             pass
+'''
 img = cv2.imread('1.png')
 app = Structure_Process(debug=True)
 app.compare_img(app.img_set.img_set[0])
+'''
